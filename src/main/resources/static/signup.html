@@ -32,6 +32,7 @@
 
     <form action="/user/signup" method="post">
         <div class="login-id-label">Username</div>
+        <div th:if="${message} == '중복'" class="alert alert-danger" role="alert">id already used</div>
         <input type="text" name="username" placeholder="Username" class="login-input-box">
 
         <div class="login-id-label">Password</div>
