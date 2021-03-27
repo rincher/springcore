@@ -70,7 +70,7 @@ public class Product extends Timestamped {
         this.myprice = 0;
     }
 
-    public void updateMyPrice(ProductMypriceRequestDto requestDto) {
-        this.myprice = requestDto.getMyprice();
+    public void updateMyPrice(int price) {
+        this.myprice = price;
     }
 }

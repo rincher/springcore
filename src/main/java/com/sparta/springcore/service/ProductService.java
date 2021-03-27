@@ -14,7 +14,7 @@ import java.util.List;
 public class ProductService {
     // 멤버 변수 선언
     private final ProductRepository productRepository;
-    private static final int MIN_PRICE = 0;
+    private static final int MIN_PRICE = 100;
 
     public List<Product> getProducts(Long userId) {
         return productRepository.findAllByUserId(userId);
@@ -41,7 +41,7 @@ public class ProductService {
         if (myPrice < MIN_PRICE){
             throw new IllegalArgumentException("최소 가격이 0 이하 일 수 없습니다.");
         }
-        product.updateMyPrice(requestDto);
+        product.updateMyPrice(myPrice);
         return product;
     }
 }
