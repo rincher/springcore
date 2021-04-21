@@ -1,7 +1,5 @@
 package com.sparta.springcore.model;
 
-import com.sparta.springcore.model.Timestamped;
-import com.sparta.springcore.model.UserRole;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

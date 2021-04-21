@@ -89,7 +89,7 @@ public class ProductService {
         Long folderUserId = folder.getUser().getId();
 
         if (!userId.equals(productUserId) || !userId.equals(folderUserId)) {
-            throw new IllegalArgumentException("회원님의 관심상품이 아니거나, 폴더가 아니어서 추가하지 못했습니다.");
+            throw new IllegalArgumentException("a");
         }
 
         // 4) 상품에 폴더를 추가합니다.

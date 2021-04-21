@@ -33,6 +33,7 @@ public class Product extends Timestamped {
 
     @ManyToMany
     private List<Folder> folderList;
+
     public Product(ProductRequestDto requestDto, Long userId) {
         // 입력값 Validation
         if (userId == null || userId < 0) {

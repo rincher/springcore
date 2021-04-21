@@ -1,18 +1,30 @@
 package com.sparta.springcore.controller;
 
+import com.sparta.springcore.exception.ApiException;
 import com.sparta.springcore.dto.FolderCreateRequestDto;
 import com.sparta.springcore.model.Folder;
 import com.sparta.springcore.model.Product;
-import com.sparta.springcore.model.User;
 import com.sparta.springcore.security.UserDetailsImpl;
 import com.sparta.springcore.service.FolderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 @RestController
 public class FolderController {
+    //IllegalArgument exception 발생시 일관 처리 부분
+    @ExceptionHandler({IllegalArgumentException.class})
+    public ResponseEntity<Object> handle(IllegalArgumentException ex){
+        ApiException apiException = new ApiException(
+                ex.getMessage(),
+                HttpStatus.BAD_REQUEST
+        );
+        return new ResponseEntity<>(apiException, HttpStatus.BAD_REQUEST);
+    }
+
     // 멤버 변수 선언
     private final FolderService folderService;
     @Autowired

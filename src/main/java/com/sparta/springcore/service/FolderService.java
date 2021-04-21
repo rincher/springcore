@@ -1,7 +1,6 @@
 package com.sparta.springcore.service;
 
-import com.sparta.springcore.dto.FolderCreateRequestDto;
-import com.sparta.springcore.dto.ProductRequestDto;
+import com.sparta.springcore.exception.ApiRequestException;
 import com.sparta.springcore.model.Folder;
 import com.sparta.springcore.model.Product;
 import com.sparta.springcore.model.User;
@@ -13,9 +12,10 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class FolderService {
@@ -34,6 +34,8 @@ public class FolderService {
         return folderRepository.findAllByUser(user);
     }
     // 폴더 만들기
+
+    @Transactional(readOnly = false)
     public List<Folder> createFolders(List<String> folderNameList, User user) {
 
         // 1) 입력으로 들어온 폴더 이름을 기준으로, 회원이 이미 생성한 폴더들을 조회합니다.
@@ -42,15 +44,15 @@ public class FolderService {
         List<Folder> folderList = new ArrayList<>();
         for (String folderName : folderNameList) {
             // 2) 이미 생성한 폴더가 아닌 경우만 폴더 생성
-            if (!isExistFolderName(folderName, existFolderList)) {
-                Folder folder = new Folder(folderName, user);
-                folderList.add(folder);
+            if (isExistFolderName(folderName, existFolderList)) {
+                throw new ApiRequestException("중복된 폴더명: (" + folderName + ") 을 삭제하고 다시 시도 해주세요");
             }
             else{
-
+                Folder folder = new Folder(folderName, user);
+                folderList.add(folder);
+                folderList = folderRepository.saveAll(folderList);
             }
         }
-        folderList = folderRepository.saveAll(folderList);
         return folderList;
     }
 
